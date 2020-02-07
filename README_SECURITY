@@ -1,0 +1,23 @@
+SECURITY
+
+pip install flask-bcrypt
+
+from flask_bcrypt import Bcrypt
+
+bcrpyt=Bcrypt()
+hased_pwd=bcrypt.generate_passowrd_hash('testing')-> ogni volta genera una nuova passw
+Devo utilizzare un secondo metodo che mi permetta di autenticare l'utente anche se le password cambiano
+
+bcrypt.check_password_hash(hased_psw,'testing')
+
+IMPLEMENTAZIONE IN FLASK
+
+
+from flask_bcrypt import Bcrypt
+app=Flask(__name__)
+bcrypt=Bcrypt(app)-> aggiungo Bcrypt all'applicazione Flask
+
+
+VALIDAZIONE NEI FORM
+
+hashed_passw=bcrypt.generate_password_hash(form.password.data).decode('utf-8')-> utf-8 se voglio ottenere una stringa

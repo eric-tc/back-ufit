@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-md-8">
+    <div class="content-section">
+
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
+{##}
+{#            {% if form.errors %}#}
+{#                {{ form.errors }}#}
+{#            {% endif %}#}
+
+
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join Today</legend>
+
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {{ form.username(class="form-control form-control-lg") }}
+
+                </div>
+
+                <div class="form-group">
+                    {{ form.surname.label(class="form-control-label") }}
+                    {{ form.surname(class="form-control form-control-lg") }}
+
+                </div>
+
+                <div class="form-group">
+                    {{ form.stile_di_vita.label(class="form-control-label") }}
+                    {{ form.stile_di_vita(class="form-control form-control-lg") }}
+
+                </div>
+
+
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+
+                <div class="form-group">
+                    {{ form.cellulare.label(class="form-control-label") }}
+                    {{ form.cellulare(class="form-control form-control-lg") }}
+
+                </div>
+
+
+                <h2>Motivo della Richiesta</h2>
+
+                <div class="form-group">
+                    {{ form.motivo.label(class="form-control-label") }}
+                    {{ form.motivo(class="form-control form-control-lg") }}
+
+                </div>
+
+                <div class="form-group">
+                    {{ form.aspettativa.label(class="form-control-label") }}
+                    {{ form.aspettativa(class="form-control form-control-lg") }}
+
+                </div>
+
+                <div class="form-group">
+                    {{ form.servizio.label(class="form-control-label") }}
+                    {{ form.servizio(class="form-control form-control-lg") }}
+
+                </div>
+
+                <h2>Stato di Salute</h2>
+
+                <div class="form-group">
+
+                    {{ form.infortuni.label(class="form-control-label") }}
+                    {{ form.infortuni(class="form-control form-control-lg") }}
+
+                </div>
+
+                <div class="form-group">
+
+                    {{ form.malattie.label(class="form-control-label") }}
+                    {{ form.malattie(class="form-control form-control-lg") }}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    {{ form.allenamento_desiderato.label(class="form-control-label") }}
+                    {{ form.allenamento_desiderato(class="form-control form-control-lg") }}
+
+                </div>
+
+
+
+             <h2>Informazioni Allenamento</h2>
+
+                 <div class="form-group">
+
+                    {{ form.n_all_settimana.label(class="form-control-label") }}
+                    {{ form.n_all_settimana(class="form-control form-control-lg") }}
+
+                </div>
+
+                 <div class="form-group">
+
+                    {{ form.ore_allenamento.label(class="form-control-label") }}
+                    {{ form.ore_allenamento(class="form-control form-control-lg") }}
+
+                </div>
+
+
+
+
+
+                <div class="form-group">
+
+                    {{ form.allenamento_praticato.label(class="form-control-label") }}
+                    {{ form.allenamento_praticato(class="form-control form-control-lg") }}
+
+                </div>
+
+
+            <div class="form-group">
+
+                    {{ form.somatotipo.label(class="form-control-label") }}
+                    {{ form.somatotipo(class="form-control form-control-lg") }}
+
+                </div>
+
+
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+
+
+            </fieldset>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+</body>
+</html>

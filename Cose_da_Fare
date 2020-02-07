@@ -1,0 +1,32 @@
+1) Layout profilo utente
+    -Prendere i dati dal database e mostrarli
+    -Inserire grafici che mostrano il miglioramento nel tempo
+
+2) Creare il layout per la selezione degli allenamenti
+   - Crea la tabella Allenamenti a database con tutti gli id degli allenamenti FATTO
+   - Finire layput pagina allenamenti(utilizzare multiple checkbox gli id degli elementi selezionati sono già operativi)FATTO
+
+3) Creare la pagina generazione allenamento
+    - Inserire i campi da compilare per ciascun allenamento selezionato FATTO
+    - Inserire i dati dell'allenamento in formato PDF FATTO
+
+
+
+
+
+4) Creazione automatica backup database
+
+
+5) Vedere come si gestisce la migrazione dei database
+
+
+6) Togliere Circuito nella scheda , Aggiungere Nome e Numero Scheda
+
+
+Voci per la scheda
+
+Esercizio ,Gruppo Muscolare, n Ripetizioni, n Serie, micropause, tipo di contrazione, Tido di lavoro, Macropause
+
+
+
+7)

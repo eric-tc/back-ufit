@@ -1,0 +1,65 @@
+INSTALLARE
+
+pip3 install flask-sqlalchemy
+
+1)CREARE IL DATABASE
+
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///site.db'
+
+/// rappresentano la path relativa rispetto a dove lancio l'applicativo
+
+
+creare una istanza db
+
+----flask_ufit.py--- file
+from flask_sqlalchemy import SQLALCHEMY
+
+app=Flask(__name__)
+
+db=SQLALCHEMY(app)
+
+DA TERMINALE cd /path/to/project
+
+python3
+
+from ufit import db
+
+db.create_all()-> Crea un database di nome site.db
+
+
+GENERARE DATI
+
+from flask_ufit import User-> USer rappresenta la classe del database da creare
+
+user_1= User(username='Nome',email='Email') -> in questo modo creo un istanza della classe per essere aggiunta a Db
+
+db.session.add(user)-> aggiungo l'utente a alla sessione db
+
+db.session.commit()-> aggiungo effettivamente utente a db
+
+RECUPERARE I DATI
+
+User.query.all()-> recupera tutti i dati a database
+--------------
+user=User.query.filter_by(username='Corey').all()-> ritorna tutti gli utenti con campo 'username'= Corey
+
+user.id -> ritorna il valore id dell' utente della query precedente
+-----------------
+user=query.get(1)-> ritorna utente con id =1
+
+JOINT QUERY
+
+post=Posts(title='blog',user_id=user.id)
+
+db.session.add(post)
+
+db.session.commit()
+
+user.posts-> chiamando il campo post, siccome il modello è costruito con una Joint query, riesco a recuperare tutti i
+post associati all'utente.
+
+
+
+
+
+

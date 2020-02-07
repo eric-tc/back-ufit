@@ -1,0 +1,19 @@
+# CREARE UNA SECRET KEY per ragioni di sicurezza
+
+Da terminale
+
+import secrets
+secrets.token_hex(16)-> crea una chiave di sicurezza
+
+
+# Dati dal form
+# nome_istanza.nome_campo.data
+# client_general_info.username.data
+
+
+ERRORI DI VALIDAZIONE DEL FORM
+
+Da aggiungere nel template
+  {% if form.errors %}
+                {{ form.errors }}
+            {% endif %}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="content-section">
+
+        <form action="" method="POST">
+
+
+            {{ form_allenamento.hidden_tag() }}
+
+            {##}
+            {#            {% if form.errors %}#}
+            {#                {{ form.errors }}#}
+            {#            {% endif %}#}
+            <table style="width:100%;table-layout:fixed">
+
+
+                <tr>
+                    <th style="width:25%">
+
+                    </th>
+                    <th style="width:25%">Pettoriali</th>
+                    <th style="width:25%;">Spalle</th>
+                    <th style="width:25%">Dorsali</th>
+                </tr>
+                <tr>
+                    <td>Seleziona tutti gli esercizi e clicca sul pulsante "Crea Allenamento" per creare allenamento</td>
+                    <td>
+                        <div class="form-group">
+                            {{ form_allenamento.pettorali.label(class="form-control-label") }}
+                            {{ form_allenamento.pettorali(class="form-control form-control-lg") }}
+
+                        </div>
+                    </td>
+                    <td>
+                        {{ form_allenamento.spalle.label(class="form-control-label") }}
+                        {{ form_allenamento.spalle(class="form-control form-control-lg") }}
+                    </td>
+                    <td>
+                        {{ form_allenamento.dorsali.label(class="form-control-label") }}
+                        {{ form_allenamento.dorsali(class="form-control form-control-lg") }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <th style="width:25%">
+                        Bicipiti
+                    </th>
+                    <th style="width:25%">Tricipiti</th>
+                    <th style="width:25%;">Addominali</th>
+                    <th style="width:25%">Dorsali Posturali</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        {{ form_allenamento.bicipiti.label(class="form-control-label") }}
+                        {{ form_allenamento.bicipiti(class="form-control form-control-lg") }}
+                    </td>
+                    <td>{{ form_allenamento.tricipiti.label(class="form-control-label") }}
+                        {{ form_allenamento.tricipiti(class="form-control form-control-lg") }}</td>
+                    <td>
+                        {{ form_allenamento.addominali.label(class="form-control-label") }}
+                        {{ form_allenamento.addominali(class="form-control form-control-lg") }}
+                    </td>
+
+                    <td>{{ form_allenamento.dorsali_posturali.label(class="form-control-label") }}
+                        {{ form_allenamento.dorsali_posturali(class="form-control form-control-lg") }}
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <th style="width:25%">
+                        Quadricipiti
+                    </th>
+                    <th style="width:25%">Flessori Ginocchio</th>
+                    <th style="width:25%;">Estensori Anca</th>
+                    <th style="width:25%">Polpacci</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        {{ form_allenamento.quadricipiti.label(class="form-control-label") }}
+                        {{ form_allenamento.quadricipiti(class="form-control form-control-lg") }}
+                    </td>
+                    <td>{{ form_allenamento.flessori_ginocchio.label(class="form-control-label") }}
+                        {{ form_allenamento.flessori_ginocchio(class="form-control form-control-lg") }}</td>
+                    <td>
+                        {{ form_allenamento.estensori_anca.label(class="form-control-label") }}
+                        {{ form_allenamento.estensori_anca(class="form-control form-control-lg") }}
+                    </td>
+
+                    <td>{{ form_allenamento.polpacci.label(class="form-control-label") }}
+                        {{ form_allenamento.polpacci(class="form-control form-control-lg") }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th style="width:25%">
+                        Aduttori
+                    </th>
+                    <th style="width:25%">Abduttori</th>
+                    <th style="width:25%;">Conferma</th>
+
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_allenamento.adduttori.label(class="form-control-label") }}
+                        {{ form_allenamento.adduttori(class="form-control form-control-lg") }}
+                    </td>
+
+                    <td>{{ form_allenamento.abduttori.label(class="form-control-label") }}
+                        {{ form_allenamento.abduttori(class="form-control form-control-lg") }}
+
+                    </td>
+
+                    <td>
+                        {{ form_allenamento.submit(class="btn btn-outline-info") }}
+
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+        </form>
+    </div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+INSTLLARE PYTHON 3.6
+
+http://ubuntuhandbook.org/index.php/2017/07/install-python-3-6-1-in-ubuntu-16-04-lts/
+
+
+ERROR add-apt-repository-command-not-found
+
+SOLUZIONE
+https://itsfoss.com/add-apt-repository-command-not-found/
+
+
+LANCIARE APPLICAZIONE(sto usando il python3)
+
+python3
+
+
+GENERARE UNA LISTA CLICCABILE DI UTENTI
+
+https://www.youtube.com/watch?v=LPdWU9VF-Po
+
+
+DYNAMIC FORM
+
+https://github.com/bshelton/Dynamic-Forms
+
+https://stackoverflow.com/questions/43859978/add-fields-dynamically-to-wtforms-form
+
+
+TIPOLOGIA SCHEDE
+
+0=riscaldamento
+1=allenamento
+2= defaticamento
+
+
+GENERARE PDF DA FLASK
+
+https://www.youtube.com/watch?v=C8jxInLM9nM
+
+Errore Gui Docker
+
+https://stackoverflow.com/questions/51623777/how-to-run-pdfkit-from-file-in-a-docker-container
+
+INSTALL CAIROCFFI
+
+https://stackoverflow.com/questions/34719366/failed-to-install-cairocffi
+

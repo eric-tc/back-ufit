@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>Flask app</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+
+<body>
+<header>
+    <div class="container">
+        <h1 class="logo">NOME</h1>
+        <strong>
+            <nav>
+                <ul class="menu">
+                    <li><a href="{{ url_for('list_client') }}">Lista Utenti</a></li>
+                    <li><a href="{{ url_for('new_client') }}">Crea Utente</a></li>
+                </ul>
+            </nav>
+        </strong>
+    </div>
+</header>
+</body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+
+                    {% for category,message in messages %}
+
+                        <div class="alert alert-{{ category }}">
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+
+            {% endwith %}
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="client-list">
+
+    Pagina Scheda
+    <div><p>Tempo allenamento variabile tempo allenamento</p>  </div>
+    <div><p>Discriminanti Mediche variabile Varianti Mediche</p> </div>
+
+
+    <form method=post>
+
+    {% for field in form_dynamic%}
+        {% if loop.index0 % 11==0 %}
+            <hr>
+            <div>
+
+        {%  endif %}
+        {{ field() }}
+
+        {% if loop.index0 % 11==0 %}
+            <hr>
+            </div>
+
+
+        {%  endif %}
+
+    {% endfor %}
+
+
+    <input type=submit value=Register>
+
+
+</form>
+
+</div>
+{% endblock %}
+
+</body>
+</html>

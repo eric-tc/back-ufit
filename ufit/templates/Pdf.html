@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<table style="width:100%;table-layout:fixed">
+
+
+    <tr>
+        <td style="width:20%;word-wrap:break-word;">
+            <b>Nome</b>
+        </td>
+        <td style="width:12%;word-wrap:break-word;">
+            <b>Ripetizioni</b>
+        </td>
+        <td style="width:8%;word-wrap:break-word;">
+            <b>Serie</b>
+        </td>
+
+        <td style="width:8%;word-wrap:break-word;">
+            <b>Pausa</b>
+        </td>
+
+        <td style="width:20%;word-wrap:break-word;">
+            <b>Discriminanti</b>
+        </td>
+
+        <td style="width:16%;word-wrap:break-word;">
+            <b>Contrazioni</b>
+        </td>
+
+        <td style="width:16%;word-wrap:break-word;">
+            <b>Tipo di lavoro</b>
+        </td>
+
+
+
+
+    </tr>
+
+    <tr>
+
+        <td style="width:30%;word-wrap:break-word;">
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <p><b>ALLENAMENTO 1 </b></p>
+            <p><b>CIRCUITO 1 </b></p>
+
+            <hr>
+        </td>
+
+
+    </tr>
+
+    {% set allenamento_pre = [] %}
+
+
+    {% if allenamento_pre.append(allenamenti[0].numero_allenamento) %}{% endif %}
+
+
+    {% set circuito_base=allenamenti[0].circuito %}
+
+    {% set circuito_pre = [] %}
+
+    {% if circuito_pre.append(allenamenti[0].circuito) %}{% endif %}
+
+
+
+    {% for allenamento in allenamenti %}
+
+
+
+
+
+        {% if allenamento_pre[loop.index - 1] == allenamento.numero_allenamento|string() %}
+
+
+
+
+
+        {% else %}
+
+
+
+            <tr>
+
+                <td style="width:30%;word-wrap:break-word;">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p><b>ALLENAMENTO {{ allenamento_pre[loop.index - 1]|int() + 1}}</b></p>
+                    <p><b>CIRCUITO 1 </b></p>
+
+
+                </td>
+
+
+            </tr>
+
+        {% endif %}
+
+
+
+
+        {% if circuito_pre[loop.index - 1] != allenamento.circuito and allenamento.circuito != '1' %}
+            <tr>
+                <td style="width:30%;word-wrap:break-word;">
+
+
+                    <p><b>CIRCUITO {{ circuito_pre[loop.index - 1]|int() + 1 }} </b></p>
+
+
+                </td>
+
+            </tr>
+        {% endif %}
+
+
+
+
+        <tr>
+
+
+            <td style="word-wrap:break-word;">
+
+                {% if allenamento_pre == allenamento.numero_allenamento %}
+
+                    {{ allenamento.nome_allenamento }}
+
+
+
+                {% else %}
+
+
+                    {{ allenamento.nome_allenamento }}
+
+                {% endif %}
+
+
+            </td>
+
+            <td style="word-wrap:break-word;">
+
+
+                {{ allenamento.ripetizioni }}
+            </td>
+
+            <td style="word-wrap:break-word;">
+                {{ allenamento.serie }}
+            </td>
+            <td style="word-wrap:break-word;">
+                {{ allenamento.pausa_allenamento }} sec
+            </td>
+
+            <td style="word-wrap:break-word;">
+                {{ allenamento.discriminanti_esercizi }}
+            </td>
+
+            <td style="word-wrap:break-word;">
+                {{ allenamento.contrazione_richiesta }}
+            </td>
+
+            <td style="word-wrap:break-word;">
+                {{ allenamento.tipo_di_lavoro }}
+            </td>
+
+
+        </tr>
+
+
+
+
+        <tr>
+
+
+            <td >
+
+                <b>{{ allenamento.esercizi_rilassamento }}</b>
+                <br>
+                <br>
+                <br>
+                <br>
+            </td>
+
+
+        </tr>
+
+
+
+
+        {% if allenamento_pre.append(allenamento.numero_allenamento) %}{% endif %}
+
+
+        {% if circuito_pre.append(allenamento.circuito) %}{% endif %}
+
+
+
+
+    {% endfor %}
+
+
+</table>
+
+
+</body>
+</html>
