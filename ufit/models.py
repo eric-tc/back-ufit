@@ -69,7 +69,11 @@ class Utente(db.Model):
 
         return f"Utente('{self.id}','{self.nome}','{self.somatotipo}','{self.ore_allenamento}','{self.n_all_settimana}'" \
                f",'{self.allenamento_praticato}')"
+    
+    def as_dict(self):
+           return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+    
 # class Allenamento(db.Model):
 #
 #     # Tiene traccia di tutte le schede create dal sistema

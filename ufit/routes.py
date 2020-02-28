@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for,make_response
+from flask import render_template, flash, redirect, url_for,make_response,jsonify
 from ufit import app, db,generazione_scheda
 from ufit.forms import GeneralInput, CreaAllenamentoForm,DynamicForm,CreaSchedaForm
 from ufit.models import Utente, CreaScheda,Allenamento,CreaAllenamento
@@ -21,6 +21,15 @@ gloab_scheda_id=None
 
 # variabile creazione scheda
 # questa variabile verfica se e stato generato il pdf della scheda
+
+
+@app.route("/test",methods=["GET"])
+def test_route():
+
+    return jsonify("test")
+
+
+
 
 
 @app.route('/new-client', methods=['GET', 'POST'])
@@ -493,5 +502,11 @@ def list_client():
     users = Utente.query.all()
 
     print(users)
+    list_dict=[]
 
-    return render_template('ClientList.html', users=users)
+    for user in users:
+        dict_user=user.as_dict()
+        list_dict.append(dict_user)
+
+    #return render_template('ClientList.html', users=users)
+    return jsonify(list_dict)
