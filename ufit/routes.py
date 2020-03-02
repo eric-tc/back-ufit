@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for,make_response,jsonify
+from flask import render_template, flash, redirect, url_for,make_response,jsonify,request
 from ufit import app, db,generazione_scheda
 from ufit.forms import GeneralInput, CreaAllenamentoForm,DynamicForm,CreaSchedaForm
 from ufit.models import Utente, CreaScheda,Allenamento,CreaAllenamento
@@ -32,13 +32,44 @@ def test_route():
 
 
 
-@app.route('/new-client', methods=['GET', 'POST'])
+@app.route('/new-client', methods=['GET', 'POST','PUT'])
 def new_client():
     # importo il form nell html della pagina
 
+    
 
     client_form = GeneralInput()
 
+    #gestion risposta da Vue
+    
+    if request.method=="POST":
+        
+        print(request.get_json())
+        #input("DATA JSON")
+        
+        client_form=request.get_json()
+        
+        user = Utente(nome=client_form["name"], cognome="campo", email=client_form["email"],
+                                    cellulare=client_form["cellulare"], stile_vita=client_form["stileVita"],
+                                    motivo=client_form["motivoRichiesta"], aspettativa=client_form["aspettativaServizio"],
+                                    servizio=client_form["aspettativaServizio"],infortunio=client_form["infortunio"],malattie=client_form["malattie"],
+                                    allenamento_desiderato=client_form["allenamentoDesiderato"],somatotipo=client_form["somatotipo"],
+                                    allenamento_praticato=client_form["allenamentoSvolto"],n_all_settimana=client_form["numAllenamenti"],
+                                    ore_allenamento=client_form["oreDisponibili"])
+
+        
+        db.session.add(user)
+
+        db.session.commit()
+        
+        list_dict={"success":"True"}
+        
+        return jsonify(list_dict)
+
+        
+        
+    
+    
     # quando l'utente esegue il comando on submit
     print ("PRE_VALIDATE")
     print (client_form.validate_on_submit())
