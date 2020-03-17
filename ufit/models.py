@@ -162,6 +162,9 @@ class Allenamento(db.Model):
     def __repr__(self):
 
         return f"Allenamento('{self.id_allenamento}','{self.nome_allenamento}')"
+    
+    def as_dict(self):
+           return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class CreaScheda(db.Model):

@@ -216,6 +216,10 @@ def scelta_esercizi(user_id,scheda_id):
 
 
 
+
+    
+    
+
 @app.route('/crea-scheda/<int:user_id>',methods=['GET', 'POST'])
 def crea_scheda(user_id):
 
@@ -540,4 +544,19 @@ def list_client():
         list_dict.append(dict_user)
 
     #return render_template('ClientList.html', users=users)
+    return jsonify(list_dict)
+
+
+
+@app.route('/esercizi',methods=['GET', 'POST'])
+def esercizi_allenamento():
+    
+    lista_allenamenti = Allenamento.query.all()
+    
+    list_dict=[]
+    
+    for allenamento in lista_allenamenti:
+        dict_allenamento=allenamento.as_dict()
+        list_dict.append(dict_allenamento) 
+     
     return jsonify(list_dict)
