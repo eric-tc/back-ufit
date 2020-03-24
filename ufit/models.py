@@ -194,7 +194,9 @@ class CreaScheda(db.Model):
 
     tipo_carico = db.Column(db.String(100), nullable=False)
 
-
+    def as_dict(self):
+           return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
     def __repr__(self):
 
         return f"CreaScheda('{self.id}','{self.tipologia}','{self.durata}','{self.tipo_programmazione}'," \

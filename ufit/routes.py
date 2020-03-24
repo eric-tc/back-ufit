@@ -216,111 +216,208 @@ def scelta_esercizi(user_id,scheda_id):
 
 
 
-
-    
-    
-
 @app.route('/crea-scheda/<int:user_id>',methods=['GET', 'POST'])
-def crea_scheda(user_id):
-
-    """
-    gestisce la pagina di creazione delle caratteristiche della scheda
-    
-    :param user_id:ritorna id utente 
-    :return: 
-    """
-    # form per scegliere gli esercizi
-
-
-
-
-
-    form_crea_scheda=CreaSchedaForm()
-
-
-
-    print (form_crea_scheda.validate_on_submit())
-    if form_crea_scheda.validate_on_submit():
-
-
-
-        print (form_crea_scheda.data._value())
-
-        timestamp=form_crea_scheda.data._value()
-
-        timestamp= timestamp.split("/")
-
-        print (timestamp)
-
-        timestamp=datetime.date(int(timestamp[2]),int(timestamp[0]),int(timestamp[1]))
-
-
-        unixtime= time.mktime(timestamp.timetuple())
-
-        print (unixtime)
-
-
-
-
-        scheda = CreaScheda(id_utente=user_id, tipologia=1,tipo_programmazione=form_crea_scheda.tipo_programmazione.data,
-                            tipo_carico=form_crea_scheda.tipo_carico.data,durata=form_crea_scheda.data.data)
+def crea_scheda_test(user_id):
+    response_object = {'status': 'success'}
+    if request.method=="POST":
+        data = request.get_json()
+        
+        # inserisco la scheda a database ritorna id della scheda
+        print(data[2])
+        print(data[0]['fineScheda'])
+        timestamp=data[0]['fineScheda']
+        #timestamp= timestamp.split("-")
+        #print(timestamp)
+        #timestamp=datetime.date(int(timestamp[2]),int(timestamp[1]),int(timestamp[0]))
+        #timestamp=time.mktime(datetime.datetime.strptime(timestamp, "%Y-%m-%d").timetuple())
+        print(timestamp)
+        print(user_id)
+        
+        
+        # Inserisco la scheda a Db
+        scheda = CreaScheda(id_utente=user_id, tipologia=1,tipo_programmazione=data[0]['programmazioneScheda'],
+                             tipo_carico=data[0]['tipoCarico'],durata=data[0]['fineScheda'])
 
 
         db.session.add(scheda)
 
         db.session.commit()
+        
+        
+        #DA CAMBIARE CON scheda.id
+        
+        
+        if scheda is None:
+            
+            response_object['message'] = 'Problema connessione database'
+            return jsonify(response_object)
+        
+        #esercizi rilassamento sono le tipologie
+        # 0=Riscaldamento
+        # 1= Parte Centrlae
+        # 2= Defaticamento
+        # riscaldamento
+        for (index,esercizi) in enumerate(data[1]):
+        
+            inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,ripetizioni=esercizi['workout'],
+                                                  circuito=0,pausa_allenamento=0,posizione_esercizio=index,
+                                                  nome_allenamento=esercizi["nome_allenamento"],discriminanti_esercizi=0,
+                                                  tipo_di_lavoro=esercizi['carico'],contrazione_richiesta=esercizi["note"],serie=esercizi["serie"],
+                                                  numero_allenamento=0,esercizi_rilassamento=0)
+
+            db.session.add(inserisci_allenamento)
+
+            db.session.commit()
+        
+        #parte centrale
+        for (n_all,allenamenti) in enumerate(data[2]):
+            
+            for (n_circuiti,circuiti) in enumerate(allenamenti):
+                
+                for (index,esercizi) in enumerate(circuiti):
+                    
+                    inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,ripetizioni=esercizi['workout'],
+                                                  circuito=n_circuiti,pausa_allenamento=0,posizione_esercizio=index,
+                                                  nome_allenamento=esercizi["nome_allenamento"],discriminanti_esercizi=0,
+                                                  tipo_di_lavoro=esercizi['carico'],contrazione_richiesta=esercizi["note"],serie=esercizi["serie"],
+                                                  numero_allenamento=n_all,esercizi_rilassamento=1)
+
+        
+                    #Inserimento Esercizi a Database
+                    db.session.add(inserisci_allenamento)
+
+                    db.session.commit()
+        
+        
+        for (index,esercizi) in enumerate(data[3]):
+        
+            inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,ripetizioni=esercizi['workout'],
+                                                  circuito=0,pausa_allenamento=0,posizione_esercizio=index,
+                                                  nome_allenamento=esercizi["nome_allenamento"],discriminanti_esercizi=0,
+                                                  tipo_di_lavoro=esercizi['carico'],contrazione_richiesta=esercizi["note"],serie=esercizi["serie"],
+                                                  numero_allenamento=0,esercizi_rilassamento=2)
+
+            db.session.add(inserisci_allenamento)
+
+            db.session.commit()
+        
+        response_object['message'] = 'Allenamento aggiunto!'
+        return jsonify(response_object)
+    
+    
+
+# @app.route('/crea-scheda/<int:user_id>',methods=['GET', 'POST'])
+# def crea_scheda(user_id):
+
+#     """
+#     gestisce la pagina di creazione delle caratteristiche della scheda
+    
+#     :param user_id:ritorna id utente 
+#     :return: 
+#     """
+#     # form per scegliere gli esercizi
 
 
-        return redirect(
-            url_for('scelta_esercizi', user_id=user_id, scheda_id=scheda.id))
+
+
+
+#     form_crea_scheda=CreaSchedaForm()
+
+
+
+#     print (form_crea_scheda.validate_on_submit())
+#     if form_crea_scheda.validate_on_submit():
+
+
+
+#         print (form_crea_scheda.data._value())
+
+#         timestamp=form_crea_scheda.data._value()
+
+#         timestamp= timestamp.split("/")
+
+#         print (timestamp)
+
+#         timestamp=datetime.date(int(timestamp[2]),int(timestamp[0]),int(timestamp[1]))
+
+
+#         unixtime= time.mktime(timestamp.timetuple())
+
+#         print (unixtime)
+
+
+
+
+#         scheda = CreaScheda(id_utente=user_id, tipologia=1,tipo_programmazione=form_crea_scheda.tipo_programmazione.data,
+#                             tipo_carico=form_crea_scheda.tipo_carico.data,durata=form_crea_scheda.data.data)
+
+
+#         db.session.add(scheda)
+
+#         db.session.commit()
+
+
+#         return redirect(
+#             url_for('scelta_esercizi', user_id=user_id, scheda_id=scheda.id))
 
 
 
 
 
 
-        #return redirect(url_for('crea_allenamento', user_id=user_id, scheda_id=gloab_scheda_id,array_esercizi=array_esercizi))
+#         #return redirect(url_for('crea_allenamento', user_id=user_id, scheda_id=gloab_scheda_id,array_esercizi=array_esercizi))
 
 
-    # devo inserire una scheda a database con associtato id utente e la tipologia della scheda
-
-
-
-
-    # al template devo passare anche id della scheda appena creata a cui saranno associtati gli allenamenti
-    # gli passo anche id dell'utente
+#     # devo inserire una scheda a database con associtato id utente e la tipologia della scheda
 
 
 
 
-
-
-
-    #     scheda = CreaScheda(id_utente=user_id, tipologia=1)
-    #
-    #     db.session.add(scheda)
-    #     print ("Commit")
-    #     db.session.commit()
-    #
-    #     # id acquisto solo dopo il commit
-    #     gloab_scheda_id = scheda.id
-    #
-    #     # variabile che non permette la creazione di una nuova scheda fintanto che
-    #     # non ho creato il pdf di quella precedente
-    #     generazione_scheda=1
-    #
-    #     print("GENERAZIONE SCHEDA INSIDE")
-    #
-    # print("GENERAZIONE SCHEDA OUTSIDE")
-    # print (generazione_scheda)
-
-    # DA SOSTITUIRE CON scheda.id
-    return render_template('CreaScheda.html',user_id=user_id,form_crea_scheda=form_crea_scheda)
+#     # al template devo passare anche id della scheda appena creata a cui saranno associtati gli allenamenti
+#     # gli passo anche id dell'utente
 
 
 
 
 
+
+
+#     #     scheda = CreaScheda(id_utente=user_id, tipologia=1)
+#     #
+#     #     db.session.add(scheda)
+#     #     print ("Commit")
+#     #     db.session.commit()
+#     #
+#     #     # id acquisto solo dopo il commit
+#     #     gloab_scheda_id = scheda.id
+#     #
+#     #     # variabile che non permette la creazione di una nuova scheda fintanto che
+#     #     # non ho creato il pdf di quella precedente
+#     #     generazione_scheda=1
+#     #
+#     #     print("GENERAZIONE SCHEDA INSIDE")
+#     #
+#     # print("GENERAZIONE SCHEDA OUTSIDE")
+#     # print (generazione_scheda)
+
+#     # DA SOSTITUIRE CON scheda.id
+#     return render_template('CreaScheda.html',user_id=user_id,form_crea_scheda=form_crea_scheda)
+
+
+
+# ritorna la lista delle schede di un utente
+@app.route('/lista-schede/<int:user_id>')
+def lista_schede(user_id):
+    
+    schede= CreaScheda.query.filter_by(id_utente=user_id).order_by(CreaScheda.durata.asc()).all()
+    
+    list_dict=[]
+    
+    for scheda in schede:
+        dict_scheda=scheda.as_dict()
+        list_dict.append(dict_scheda) 
+    
+    return jsonify(list_dict)
 
 
 @app.route('/crea-allenamento/<int:user_id>/<scheda_id>/<string:array_esercizi>',methods=['GET', 'POST'])
