@@ -15,6 +15,8 @@ import pdfkit
 
 import numpy as np
 
+import copy
+
 # id della scheda creata
 gloab_scheda_id=None
 
@@ -44,7 +46,7 @@ def new_client():
     
     if request.method=="POST":
         
-        print(request.get_json())
+        #print(request.get_json())
         #input("DATA JSON")
         
         client_form=request.get_json()
@@ -259,11 +261,11 @@ def crea_scheda_test(user_id):
         # riscaldamento
         for (index,esercizi) in enumerate(data[1]):
         
-            inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,ripetizioni=esercizi['workout'],
-                                                  circuito=0,pausa_allenamento=0,posizione_esercizio=index,
-                                                  nome_allenamento=esercizi["nome_allenamento"],discriminanti_esercizi=0,
-                                                  tipo_di_lavoro=esercizi['carico'],contrazione_richiesta=esercizi["note"],serie=esercizi["serie"],
-                                                  numero_allenamento=0,esercizi_rilassamento=0)
+            inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,workout=esercizi['workout'],
+                                                  circuito=0,posizione_esercizio=index,
+                                                  nome_allenamento=esercizi["nome_allenamento"],id_allenamento=esercizi["id_allenamento"],
+                                                  carico=esercizi['carico'],note=esercizi["note"],serie=esercizi["serie"],
+                                                  numero_allenamento=0,tipologia=0)
 
             db.session.add(inserisci_allenamento)
 
@@ -276,11 +278,11 @@ def crea_scheda_test(user_id):
                 
                 for (index,esercizi) in enumerate(circuiti):
                     
-                    inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,ripetizioni=esercizi['workout'],
-                                                  circuito=n_circuiti,pausa_allenamento=0,posizione_esercizio=index,
-                                                  nome_allenamento=esercizi["nome_allenamento"],discriminanti_esercizi=0,
-                                                  tipo_di_lavoro=esercizi['carico'],contrazione_richiesta=esercizi["note"],serie=esercizi["serie"],
-                                                  numero_allenamento=n_all,esercizi_rilassamento=1)
+                    inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,workout=esercizi['workout'],
+                                                  circuito=n_circuiti,posizione_esercizio=index,
+                                                  nome_allenamento=esercizi["nome_allenamento"],id_allenamento=esercizi["id_allenamento"],
+                                                  carico=esercizi['carico'],note=esercizi["note"],serie=esercizi["serie"],
+                                                  numero_allenamento=n_all,tipologia=1)
 
         
                     #Inserimento Esercizi a Database
@@ -291,11 +293,11 @@ def crea_scheda_test(user_id):
         
         for (index,esercizi) in enumerate(data[3]):
         
-            inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,ripetizioni=esercizi['workout'],
-                                                  circuito=0,pausa_allenamento=0,posizione_esercizio=index,
-                                                  nome_allenamento=esercizi["nome_allenamento"],discriminanti_esercizi=0,
-                                                  tipo_di_lavoro=esercizi['carico'],contrazione_richiesta=esercizi["note"],serie=esercizi["serie"],
-                                                  numero_allenamento=0,esercizi_rilassamento=2)
+            inserisci_allenamento=CreaAllenamento(id_scheda=scheda.id,id_utente=user_id,workout=esercizi['workout'],
+                                                  circuito=0,posizione_esercizio=index,
+                                                  nome_allenamento=esercizi["nome_allenamento"],id_allenamento=esercizi["id_allenamento"],
+                                                  carico=esercizi['carico'],note=esercizi["note"],serie=esercizi["serie"],
+                                                  numero_allenamento=0,tipologia=2)
 
             db.session.add(inserisci_allenamento)
 
@@ -418,6 +420,127 @@ def lista_schede(user_id):
         list_dict.append(dict_scheda) 
     
     return jsonify(list_dict)
+
+
+@app.route('/lista-esercizi-riscaldamento/<int:user_id>/<int:scheda_id>')
+def lista_riscaldamento(user_id,scheda_id):
+    
+    # Ritorna la lista del riscaldamento
+    
+    riscaldamento= CreaAllenamento.query.filter_by(id_utente=user_id,id_scheda=scheda_id,tipologia=0).order_by()
+    
+    list_dict=[]
+    
+    for all_riscaldamento in riscaldamento:
+        dict_riscaldamento=all_riscaldamento.as_dict()
+        list_dict.append(dict_riscaldamento) 
+    
+    return jsonify(list_dict)
+    
+@app.route('/lista-esercizi-allenamento/<int:user_id>/<int:scheda_id>')
+def lista_allenamento(user_id,scheda_id):
+    
+    riscaldamento= CreaAllenamento.query.filter_by(id_utente=user_id,id_scheda=scheda_id,tipologia=1).order_by()
+    
+    # crea il primo allenamento
+    list_dict=[[]]
+    
+    
+    
+    index_allenamento=0
+    index_circuito=0
+  
+    
+    append_circuito=True
+    
+    for all_riscaldamento in riscaldamento:
+        
+        
+        
+        dict_riscaldamento=all_riscaldamento.as_dict()
+        
+        #print(dict_riscaldamento)
+        
+        
+        
+        #Set Allenamento
+        if(dict_riscaldamento['numero_allenamento']== str(index_allenamento)):
+            print("uguale")
+        
+        else:
+            
+            list_dict.append([])
+            index_allenamento=index_allenamento+1 
+            index_circuito=0
+            # se cambio allenamento devo inserire sempre un nuovo circuito   
+            append_circuito=True         
+        
+        #Set Circuito
+        if(dict_riscaldamento['circuito']== str(index_circuito)):
+            
+            if (append_circuito):
+                # aggiunge il primo circuito
+                list_dict[index_allenamento].append([])
+                append_circuito=False
+        
+        else:
+            list_dict[index_allenamento].append([])
+            index_circuito=index_circuito+1
+            append_circuito=True
+        
+        
+        
+        
+        list_dict[index_allenamento][index_circuito].append(dict_riscaldamento)
+        
+       
+            
+        # # #Set Esercizio
+        # if(dict_riscaldamento['posizione_esercizio']== str(index_esercizio)):
+            
+            
+                
+        #         list_dict[index_allenamento][index_circuito].append(dict_riscaldamento)
+                
+            
+        # else:
+        #     list_dict[index_allenamento][index_circuito].append(dict_riscaldamento)
+        #     index_esercizio=index_esercizio+1
+        #     append_esercizio=True
+        
+        #print(list_dict)
+        
+        
+        
+        #print (index_allenamento,index_circuito,index_esercizio)
+        
+       
+                        
+                        
+        
+        #list_dict[index_allenamento][index_circuito].append(dict_riscaldamento) 
+        
+        print (list_dict)
+        #input("array")
+        #input("Costruzione Array")
+  
+    return jsonify(list_dict)
+
+
+@app.route('/lista-esercizi-defaticamento/<int:user_id>/<int:scheda_id>')
+def lista_defaticamento(user_id,scheda_id):
+    
+    
+    riscaldamento= CreaAllenamento.query.filter_by(id_utente=user_id,id_scheda=scheda_id,tipologia=2).order_by()
+    
+    list_dict=[]
+    
+    for all_riscaldamento in riscaldamento:
+        dict_riscaldamento=all_riscaldamento.as_dict()
+        list_dict.append(dict_riscaldamento) 
+    
+    return jsonify(list_dict)
+
 
 
 @app.route('/crea-allenamento/<int:user_id>/<scheda_id>/<string:array_esercizi>',methods=['GET', 'POST'])

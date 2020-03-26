@@ -211,31 +211,28 @@ class CreaAllenamento(db.Model):
     #collegamento con id utente
     id_utente=db.Column(db.Integer,db.ForeignKey("utente.id"),nullable=False)
 
-
-    # numero di ripetizioni per il singolo allenamento
-    ripetizioni=db.Column(db.String(20),nullable=False)
     # indica se esercizio appartiente ad un circuito
     circuito=db.Column(db.String(20),nullable=False)
     #gestisce la pausa tra un allenamento e l'altro
-    pausa_allenamento=db.Column(db.String(20),nullable=False)
+    workout=db.Column(db.String(20),nullable=False)
     # indica quando eseguire esercizio
     posizione_esercizio=db.Column(db.String(20),nullable=False)
 
     nome_allenamento=db.Column(db.String(100),nullable=False)
+    
+    id_allenamento=db.Column(db.String(100),nullable=False)
 
-    discriminanti_esercizi=db.Column(db.String(100),nullable=False)
+    carico=db.Column(db.String(100),nullable=False)
 
-    tipo_di_lavoro=db.Column(db.String(100),nullable=False)
-
-    contrazione_richiesta=db.Column(db.String(100),nullable=False)
+    note=db.Column(db.String(100),nullable=False)
 
 
-    serie=db.Column(db.String(100),nullable=False)
+    serie=db.Column(db.String(20),nullable=False)
 
     # identifica la tipologia di allenamento
     numero_allenamento=db.Column(db.String(100),nullable=False)
     # esercizio di rilassamento tra un esercizio e il successivo
-    esercizi_rilassamento=db.Column(db.String(100),nullable=False)
+    tipologia=db.Column(db.String(100),nullable=False)
 
 
 
@@ -244,12 +241,14 @@ class CreaAllenamento(db.Model):
 
         # riuscire a ritornare i dati con una query devo inserire tutti i campi
         return f"CreaAllenamento('{self.id}','{self.id_scheda}','{self.id_utente}'" \
-               f",'{self.circuito}','{self.pausa_allenamento}','{self.posizione_esercizio}'" \
-               f",'{self.ripetizioni}','{self.nome_allenamento}','{self.discriminanti_esercizi}'," \
-               f"'{self.tipo_di_lavoro}','{self.contrazione_richiesta}','{self.serie}','{self.numero_allenamento}'," \
-               f"'{self.esercizi_rilassamento}')"
+               f",'{self.circuito}','{self.workout}','{self.posizione_esercizio}'" \
+               f",'{self.nome_allenamento}','{self.id_allenamento}'," \
+               f"'{self.carico}','{self.note}','{self.serie}','{self.numero_allenamento}'," \
+               f"'{self.tipologia}')"
 
 
+    def as_dict(self):
+           return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 
