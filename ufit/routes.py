@@ -487,6 +487,7 @@ def lista_allenamento(user_id,scheda_id):
             list_dict[index_allenamento].append([])
             index_circuito=index_circuito+1
             append_circuito=True
+            
         
         
         
